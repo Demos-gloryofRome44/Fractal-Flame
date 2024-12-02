@@ -1,4 +1,6 @@
-package backend.academy;
+package backend.academy.imageprocessing;
+
+import backend.academy.image.FractalImage;
 
 @FunctionalInterface
 public interface ImageProcessor {
