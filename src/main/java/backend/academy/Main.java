@@ -1,15 +1,25 @@
 package backend.academy;
 
 import backend.academy.image.FractalImage;
+import backend.academy.image.Point;
 import backend.academy.image.Rect;
+import backend.academy.transformation.linear.AffineTransformation;
+import backend.academy.transformation.nonlinear.DiamondTransformation;
+import backend.academy.transformation.nonlinear.DiskTransformation;
 import backend.academy.transformation.nonlinear.HeartTransformation;
 import backend.academy.transformation.nonlinear.PolarTransformation;
 import backend.academy.transformation.nonlinear.SinusoidalTransformation;
 import backend.academy.transformation.Transformation;
 import backend.academy.transformation.nonlinear.SphericalTransformation;
+import backend.academy.transformation.nonlinear.SpiralTransformation;
+import backend.academy.transformation.nonlinear.TTransformation;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -20,59 +30,18 @@ import java.util.Scanner;
 @UtilityClass
 public class Main {
     public static void main(String[] args) {
-        List<Transformation> transformations = new ArrayList<>();
+        InputConfigure input = new InputConfigure();
 
-        Scanner scanner = new Scanner(System.in);
+        int threadsNumber = input.readInteger("Введите кол-во потоков: ");
+        int width = input.readInteger("Введите ширину изображения: ");
+        int height = input.readInteger("Введите высоту изображения: ");
+        int pointNumber = input.readInteger("Кол-во точек: ");
+        int iterations = input.readInteger("Введите количество итераций для генерации фрактала: ");
+        int symmetry = input.readInteger("Введите значение симметрии: ");
+        int affinesNumber = input.readInteger("Введите количество аффинных трансформаций: ");
 
-        System.out.print("Введите кол-во потоков: ");
-        int threadsNumber = Integer.parseInt(scanner.nextLine());
+        List<Transformation> transformations = input.readTransformations();
 
-        // Ввод ширины изображения
-        System.out.print("Введите ширину изображения: ");
-        int width = Integer.parseInt(scanner.nextLine());
-
-        // Ввод высоты изображения
-        System.out.print("Введите высоту изображения: ");
-        int height = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("Кол-во точек: ");
-        int pointNumber = Integer.parseInt(scanner.nextLine());
-
-        // Ввод количества итераций
-        System.out.print("Введите количество итераций для генерации фрактала: ");
-        int iterations = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("Введите значение симметрии: ");
-        int symmetry = Integer.parseInt(scanner.nextLine());
-
-        // Ввод количества аффинных трансформаций
-        System.out.print("Введите количество аффинных трансформаций: ");
-        int affinesNumber = Integer.parseInt(scanner.nextLine());
-
-        String input = "";
-        while (!input.equalsIgnoreCase("stop")){
-            System.out.print("Введите тип трансформации (Heart/Polar/Sinusoidal) или 'stop' для завершения: ");
-            input = scanner.nextLine();
-
-            switch (input.toLowerCase()) {
-                case "polar":
-                    transformations.add(new PolarTransformation());
-                    break;
-                case "sinusoidal":
-                    transformations.add(new SinusoidalTransformation());
-                    break;
-                case "heart":
-                    transformations.add((new HeartTransformation()));
-                case "sferical":
-                    transformations.add(new SphericalTransformation());
-                case "stop":
-                    break;
-                default:
-                    System.out.println("Неверный ввод. Пожалуйста, попробуйте снова.");
-            }
-        }
-
-        // Логирование введенных данных
         log.info("Image Width: {}", width);
         log.info("Image Height: {}", height);
         log.info("Iterations: {}", iterations);
@@ -82,37 +51,41 @@ public class Main {
         FractalFlameGenerator generator = new FractalFlameGenerator();
         List<Color> colors = getRandomColors();
 
-        Config config = new Config(threadsNumber, pointNumber, iterations, symmetry,affinesNumber,
+        Config config = new Config(1, pointNumber, iterations, symmetry,affinesNumber,
             imageRect, colors, transformations);
 
+
+        long startTimeSingle = System.currentTimeMillis();
         try {
-            FractalImage resultImage = generator.generateFractalFlame(
-                1,
-                pointNumber,
-                affinesNumber,
-                iterations,
-                imageRect,
-                symmetry,
-                colors,
-                transformations,
-                Path.of("output.png")
-            );
+            FractalImage singleThreadImage = generator.generateFractalFlame(config, Path.of("output_single.png"));
+            long endTimeSingle = System.currentTimeMillis();
+            log.info("Однопоточный фрактал сгенерирован за {} мс.", (endTimeSingle - startTimeSingle));
         } catch (IOException | InterruptedException e) {
-            log.error("Error during fractal generation", e);
+            log.error("Ошибка во время генерации однопоточного фрактала", e);
         }
 
-        scanner.close();
+        config.threadsNumber(threadsNumber); // Ставим заданное кол-во потоков
+
+        // Рендеринг многопоточной версии
+        long startTimeMulti = System.currentTimeMillis();
+        try {
+            FractalImage multiThreadImage = generator.generateFractalFlame(config, Path.of("output_multi.png"));
+            long endTimeMulti = System.currentTimeMillis();
+            log.info("Многопоточный фрактал сгенерирован за {} мс.", (endTimeMulti - startTimeMulti));
+        } catch (IOException | InterruptedException e) {
+            log.error("Ошибка во время генерации многопоточного фрактала", e);
+        }
+
     }
 
     private static List<Color> getRandomColors() {
-        // Реализуйте метод для генерации случайных цветов
         List<Color> colors = new ArrayList<>();
 
 
         colors.add(new Color(0, 0, 0));
         colors.add(new Color(255,  255, 255));
         colors.add(new Color(255, 0, 0));
-        //colors.add(new Color(0, 255, 0));
+        //colors.add(new Color(255, 255, 0));
         //colors.add(new Color(0, 0, 255));
         //colors.add(new Color(158, 103, 210));
 
