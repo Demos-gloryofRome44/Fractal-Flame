@@ -8,5 +8,6 @@ public enum TransformationType {
     SPIRAL,
     DIAMOND,
     DISK,
+    HYPERBOLIC,
     T;
 }

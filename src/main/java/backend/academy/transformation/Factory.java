@@ -5,6 +5,7 @@ import backend.academy.transformation.nonlinear.DiamondTransformation;
 import backend.academy.transformation.nonlinear.DiskTransformation;
 import backend.academy.transformation.nonlinear.HeartTransformation;
 import backend.academy.transformation.nonlinear.PolarTransformation;
+import backend.academy.transformation.nonlinear.HyperbolicTransformation;
 import backend.academy.transformation.nonlinear.SinusoidalTransformation;
 import backend.academy.transformation.nonlinear.SphericalTransformation;
 import backend.academy.transformation.nonlinear.SpiralTransformation;
@@ -33,6 +34,8 @@ public class Factory {
                 return new DiamondTransformation();
             case DISK:
                 return new DiskTransformation();
+            case HYPERBOLIC:
+                return new HyperbolicTransformation();
             case T:
                 return new TTransformation(loadPointsFromFile("/Users/Egor/Desktop/points.txt"));
             default:
