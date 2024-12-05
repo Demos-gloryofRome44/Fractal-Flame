@@ -1,21 +1,10 @@
-package backend.academy;
+package backend.academy.input;
 
-import backend.academy.image.Point;
+import backend.academy.ColorName;
 import backend.academy.transformation.Factory;
 import backend.academy.transformation.Transformation;
 import backend.academy.transformation.TransformationType;
-import backend.academy.transformation.nonlinear.DiamondTransformation;
-import backend.academy.transformation.nonlinear.DiskTransformation;
-import backend.academy.transformation.nonlinear.HeartTransformation;
-import backend.academy.transformation.nonlinear.PolarTransformation;
-import backend.academy.transformation.nonlinear.SinusoidalTransformation;
-import backend.academy.transformation.nonlinear.SphericalTransformation;
-import backend.academy.transformation.nonlinear.SpiralTransformation;
-import backend.academy.transformation.nonlinear.TTransformation;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +21,12 @@ public class InputConfigure {
             System.out.print(prompt);
             String input = scanner.nextLine();
             try {
-                return Integer.parseInt(input);
+                int value = Integer.parseInt(input);
+                if (value <= 0) {
+                    System.out.println("Ошибка: введите положительное число.");
+                } else {
+                    return value;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: введите целое число.");
             }
@@ -68,6 +62,34 @@ public class InputConfigure {
             }
         }
         return transformations;
+    }
+
+    public List<Color> readColors() {
+        List<Color> colors = new ArrayList<>();
+        String input;
+
+        System.out.println("Доступные типы цветов:");
+        for (ColorName color : ColorName.values()) {
+            System.out.println("- " + color.name());
+        }
+
+        System.out.println("Введите 'stop' для завершения.");
+
+        while (true) {
+            input = readString("Введите цвет: ");
+            if (input.equalsIgnoreCase("stop")) {
+                break;
+            }
+
+            try {
+                ColorName colorName = ColorName.valueOf(input.toUpperCase());
+                colors.add(colorName.getColor());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка: неверное имя цвета. Пожалуйста, попробуйте снова.");
+            }
+        }
+
+        return colors;
     }
 
     private TransformationType getTransformationType(String input) {
