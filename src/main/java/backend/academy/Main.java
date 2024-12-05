@@ -10,7 +10,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import java.awt.Color;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,31 +47,46 @@ public class Main {
 
         FractalFlameGenerator generator = new FractalFlameGenerator();
 
+        // однопоточная версия
+        Path outputPath = getFilePath("output_single", imageFormat.name().toLowerCase());
         long startTimeSingle = System.currentTimeMillis();
-        try {
-            FractalImage singleThreadImage = generator.generateFractalFlame(config, Path.of(
-                "output_single." + imageFormat.name().toLowerCase()));
-            long endTimeSingle = System.currentTimeMillis();
-            log.info("Однопоточный фрактал сгенерирован за {} мс.", (endTimeSingle - startTimeSingle));
-        } catch (IOException | InterruptedException e) {
-            log.error("Ошибка во время генерации однопоточного фрактала", e);
-        }
+        generatorService(generator, config, outputPath, startTimeSingle);
 
         config.threadsNumber(threadsNumber); // Ставим заданное кол-во потоков
         log.info("Количество потоков установлено на: {}", threadsNumber);
 
         // Рендеринг многопоточной версии
+        outputPath = getFilePath("output_multi", imageFormat.name().toLowerCase());
         long startTimeMulti = System.currentTimeMillis();
-        try {
-            FractalImage multiThreadImage = generator.generateFractalFlame(config, Path.of(
-                "output_multi." + imageFormat.name().toLowerCase()));
-            long endTimeMulti = System.currentTimeMillis();
-            log.info("Многопоточный фрактал сгенерирован за {} мс.", (endTimeMulti - startTimeMulti));
-        } catch (IOException | InterruptedException e) {
-            log.error("Ошибка во время генерации многопоточного фрактала", e);
-        }
-
+        generatorService(generator, config, outputPath, startTimeMulti);
         log.info("Program completed.");
 
+    }
+
+    private static void generatorService(FractalFlameGenerator generator,
+        Config config,
+        Path outputPath,
+        long startTime) {
+        try {
+            FractalImage fractalImage = generator.generateFractalFlame(config, outputPath);
+            long endTime = System.currentTimeMillis();
+            String mode = config.threadsNumber() > 1 ? "многопоточный" : "однопоточный";
+            log.info("{} фрактал сгенерирован за {} мс.", mode, (endTime - startTime));
+        } catch (IOException | InterruptedException e) {
+            log.error("Ошибка во время генерации фрактала", e);
+        }
+    }
+
+    private static Path getFilePath(String baseName, String extension) {
+        Path path = Paths.get("src/main/resources/" + baseName + "." + extension);
+
+        // Проверяем наличие файла и добавляем суффикс, если файл существует
+        int counter = 1;
+        while (Files.exists(path)) {
+            path = Paths.get("src/main/resources/" + baseName + "_" + counter + "." + extension);
+            counter++;
+        }
+
+        return path;
     }
 }
