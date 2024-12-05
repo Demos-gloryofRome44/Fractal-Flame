@@ -1,11 +1,13 @@
 package backend.academy.input;
 
-import backend.academy.ColorName;
+import backend.academy.image.ImageFormat;
+import backend.academy.input.color.ColorName;
 import backend.academy.transformation.Factory;
 import backend.academy.transformation.Transformation;
 import backend.academy.transformation.TransformationType;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -46,6 +48,7 @@ public class InputConfigure {
         for (TransformationType type : TransformationType.values()) {
             System.out.println("- " + type.name());
         }
+
         System.out.println("Введите 'stop' для завершения.");
 
         while (!input.equalsIgnoreCase("stop")) {
@@ -69,6 +72,7 @@ public class InputConfigure {
         String input;
 
         System.out.println("Доступные типы цветов:");
+
         for (ColorName color : ColorName.values()) {
             System.out.println("- " + color.name());
         }
@@ -90,6 +94,28 @@ public class InputConfigure {
         }
 
         return colors;
+    }
+
+    public ImageFormat readImageFormat(String prompt) {
+        System.out.print(prompt);
+        List<ImageFormat> formats = Arrays.asList(ImageFormat.values());
+
+
+        for (ImageFormat format : formats) {
+            System.out.print(" - " + format);
+        }
+
+        String input;
+        while (true) {
+            System.out.print("\nВведите формат: ");
+            input = scanner.nextLine().toUpperCase();
+            String finalInput = input;
+            if (Arrays.stream(ImageFormat.values()).anyMatch(format -> format.name().equals(finalInput))) {
+                return ImageFormat.valueOf(input);
+            } else {
+                System.out.println("Ошибка: неверный формат. Пожалуйста, выберите один из следующих: " + formats);
+            }
+        }
     }
 
     private TransformationType getTransformationType(String input) {
