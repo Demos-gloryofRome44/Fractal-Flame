@@ -12,9 +12,15 @@ import lombok.extern.log4j.Log4j2;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Этот класс реализует интерфейс Runnable и выполняет генерацию изображения фрактального пламени
+ * с использованием заданных аффинных и нелинейных трансформаций.
+ * Каждое следующее преобрахование будет вносить свои «мазки» на картину,
+ * а также изменять вклад предыдущих.
+ */
 @Log4j2
 @AllArgsConstructor
-@Getter // Генерируем геттеры для всех полей
+@Getter
 public class FractalRenderingRun implements Runnable {
     private static final double X_MIN = -1.777;
     private static final double X_MAX = 1.777;
@@ -23,7 +29,6 @@ public class FractalRenderingRun implements Runnable {
 
     //Первые 20 итераций точку не рисуем, т.к. сначала надо найти начальную
     private static final int STEP_SKIP = 20;
-
 
     private final FractalImage resultImage;
     private final Rect world;
@@ -37,7 +42,7 @@ public class FractalRenderingRun implements Runnable {
     @Override
     public void run() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        Rect biUnitRectangle = new Rect(X_MIN, Y_MIN, X_MAX - X_MIN, Y_MAX - Y_MIN);
+        Rect uiRect = new Rect(X_MIN, Y_MIN, X_MAX - X_MIN, Y_MAX - Y_MIN);
 
         for (int num = 0; num < points; num++) {
             double newX = random.nextDouble(X_MIN, X_MAX);
@@ -54,7 +59,7 @@ public class FractalRenderingRun implements Runnable {
                 point = affineTransformation.apply(point);
                 point = chosenVariation.apply(point);
 
-                if (step <= STEP_SKIP || !biUnitRectangle.contains(point)) {
+                if (step <= STEP_SKIP || !uiRect.contains(point)) {
                     continue;
                 }
 
@@ -92,10 +97,6 @@ public class FractalRenderingRun implements Runnable {
                 affineTransformation.blue()
             );
         }
-
-        int newRed = (int)((pixel.red() * pixel.hitCount() + affineTransformation.red()) / (pixel.hitCount() + 1));
-        int newGreen = (int)((pixel.green() * pixel.hitCount() + affineTransformation.green()) / (pixel.hitCount() + 1));
-        int newBlue = (int)((pixel.blue() * pixel.hitCount() + affineTransformation.blue()) / (pixel.hitCount() + 1));
 
         return pixel.setColor(
             (pixel.red() + affineTransformation.red()) / 2,

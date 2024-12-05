@@ -9,18 +9,24 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Класс, представляет линейную аффинную трансформацию.
+ * Этот класс реализует интерфейс Transformation и позволяет применять
+ * аффинные преобразования к точкам, а также генерировать случайные
+ * аффинные трансформации с заданными цветами.
+ */
 @Getter
 @AllArgsConstructor
 public class AffineTransformation implements Transformation {
-    private static final double LINEAR_TRANSFORMATION_MIN = -1.0;
-    private static final double LINEAR_TRANSFORMATION_MAX = 1.0;
+    private static final double LIN_MIN = -1.0;
+    private static final double LIN_MAX = 1.0;
 
-    private final double a; // Коэффициент для x
-    private final double b; // Коэффициент для y
-    private final double c; // Смещение по x
-    private final double d; // Коэффициент для x
-    private final double e; // Коэффициент для y
-    private final double f; // Смещение по y
+    private final double a;
+    private final double b;
+    private final double c;
+    private final double d;
+    private final double e;
+    private final double f;
 
     private final int red;
     private final int green;
@@ -31,18 +37,18 @@ public class AffineTransformation implements Transformation {
         double a, b, d, e;
 
         while (true) {
-            a = random.nextDouble(LINEAR_TRANSFORMATION_MIN, LINEAR_TRANSFORMATION_MAX);
-            b = random.nextDouble(LINEAR_TRANSFORMATION_MIN, LINEAR_TRANSFORMATION_MAX);
-            d = random.nextDouble(LINEAR_TRANSFORMATION_MIN, LINEAR_TRANSFORMATION_MAX);
-            e = random.nextDouble(LINEAR_TRANSFORMATION_MIN, LINEAR_TRANSFORMATION_MAX);
+            a = random.nextDouble(LIN_MIN, LIN_MAX);
+            b = random.nextDouble(LIN_MIN, LIN_MAX);
+            d = random.nextDouble(LIN_MIN, LIN_MAX);
+            e = random.nextDouble(LIN_MIN, LIN_MAX);
 
             if (isCoefficientValid(a, b, d, e)) {
-                break; // Выход из цикла, если коэффициенты валидны
+                break;
             }
         }
 
-        double c = random.nextDouble(LINEAR_TRANSFORMATION_MIN, LINEAR_TRANSFORMATION_MAX);
-        double f = random.nextDouble(LINEAR_TRANSFORMATION_MIN, LINEAR_TRANSFORMATION_MAX);
+        double c = random.nextDouble(LIN_MIN, LIN_MAX);
+        double f = random.nextDouble(LIN_MIN, LIN_MAX);
 
         Color randomColor = colors.get(random.nextInt(colors.size()));
 
