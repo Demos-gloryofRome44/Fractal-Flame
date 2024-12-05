@@ -1,4 +1,4 @@
-package backend.academy;
+package backend.academy.input.color;
 
 import lombok.ToString;
 import java.awt.Color;
