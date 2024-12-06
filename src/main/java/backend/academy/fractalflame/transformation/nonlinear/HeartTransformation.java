@@ -4,6 +4,7 @@ import backend.academy.fractalflame.image.Point;
 import backend.academy.fractalflame.transformation.Transformation;
 
 public class HeartTransformation implements Transformation {
+
     @Override
     public Point apply(Point point) {
         double radius = radius(point);

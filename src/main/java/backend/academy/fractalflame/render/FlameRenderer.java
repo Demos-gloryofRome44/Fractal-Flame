@@ -5,6 +5,7 @@ import backend.academy.fractalflame.image.FractalImage;
 import backend.academy.fractalflame.transformation.linear.AffineTransformation;
 import java.util.List;
 
+@FunctionalInterface
 public interface FlameRenderer {
 
     /**

@@ -1,9 +1,11 @@
 package backend.academy.fractalflame.input.color;
 
 import java.awt.Color;
+import lombok.AllArgsConstructor;
 import lombok.ToString;
 
 @ToString
+@AllArgsConstructor
 public enum ColorName {
     RED(255, 0, 0),
     GREEN(0, 255, 0),
@@ -14,16 +16,9 @@ public enum ColorName {
     PURPLE(128, 0, 128),
     YELLOW(255, 255, 0);
 
-
     private final int r;
     private final int g;
     private final int b;
-
-    ColorName(int r, int g, int b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
 
     public Color getColor() {
         return new Color(r, g, b);
