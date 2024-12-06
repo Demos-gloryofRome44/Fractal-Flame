@@ -3,12 +3,12 @@ package backend.academy.utils;
 import backend.academy.image.FractalImage;
 import backend.academy.image.ImageFormat;
 import backend.academy.image.Pixel;
-import lombok.experimental.UtilityClass;
-import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
+import javax.imageio.ImageIO;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public final class ImageUtils {

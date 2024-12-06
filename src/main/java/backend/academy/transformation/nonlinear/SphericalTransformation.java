@@ -8,8 +8,8 @@ public class SphericalTransformation implements Transformation {
     public Point apply(Point point) {
         double radiusSquare = radius(point) * radius(point);
 
-        double newX = point.x()/ radiusSquare;
-        double newY = point.y()/ radiusSquare;
+        double newX = point.x() / radiusSquare;
+        double newY = point.y() / radiusSquare;
 
         return new Point(newX, newY);
     }

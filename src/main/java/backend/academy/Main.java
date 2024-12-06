@@ -6,39 +6,40 @@ import backend.academy.image.ImageFormat;
 import backend.academy.image.Rect;
 import backend.academy.input.InputConfigure;
 import backend.academy.transformation.Transformation;
-import lombok.experimental.UtilityClass;
-import lombok.extern.log4j.Log4j2;
 import java.awt.Color;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @UtilityClass
 public class Main {
+    private static final String OUT_BASE = "src/main/resources/";
+
     public static void main(String[] args) {
         log.info("Program started");
         InputConfigure input = new InputConfigure();
 
-        int threadsNumber = input.readInteger("Введите кол-во потоков: ");
-        int width = input.readInteger("Введите ширину изображения: ");
-        int height = input.readInteger("Введите высоту изображения: ");
-        int pointNumber = input.readInteger("Кол-во точек: ");
-        int iterations = input.readInteger("Введите количество итераций для генерации фрактала: ");
-        int symmetry = input.readInteger("Введите значение симметрии: ");
-        int affinesNumber = input.readInteger("Введите количество аффинных трансформаций: ");
+        int threadsNumber = input.readInteger("Введите кол-во потоков: ", System.out);
+        int width = input.readInteger("Введите ширину изображения: ", System.out);
+        int height = input.readInteger("Введите высоту изображения: ", System.out);
+        int pointNumber = input.readInteger("Кол-во точек: ", System.out);
+        int iterations = input.readInteger("Введите количество итераций для генерации фрактала: ", System.out);
+        int symmetry = input.readInteger("Введите значение симметрии: ", System.out);
+        int affinesNumber = input.readInteger("Введите количество аффинных трансформаций: ", System.out);
 
-        List<Transformation> transformations = input.readTransformations();
-        List<Color> colors = input.readColors();
+        List<Transformation> transformations = input.readTransformations(System.out);
+        List<Color> colors = input.readColors(System.out);
 
-        ImageFormat imageFormat = input.readImageFormat("Доступные форматы изображения:");
+        ImageFormat imageFormat = input.readImageFormat("Доступные форматы изображения:", System.out);
 
         Rect imageRect = new Rect(-width / 2.0, -height / 2.0, width, height);
 
-        Config config = new Config(1, pointNumber, iterations, symmetry,affinesNumber,
+        Config config = new Config(1, pointNumber, iterations, symmetry, affinesNumber,
             imageRect, colors, transformations, imageFormat);
 
 
@@ -78,12 +79,11 @@ public class Main {
     }
 
     private static Path getFilePath(String baseName, String extension) {
-        Path path = Paths.get("src/main/resources/" + baseName + "." + extension);
+        Path path = Paths.get(OUT_BASE + baseName + "." + extension);
 
-        // Проверяем наличие файла и добавляем суффикс, если файл существует
         int counter = 1;
         while (Files.exists(path)) {
-            path = Paths.get("src/main/resources/" + baseName + "_" + counter + "." + extension);
+            path = Paths.get(OUT_BASE + baseName + "_" + counter + "." + extension);
             counter++;
         }
 

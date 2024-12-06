@@ -2,12 +2,11 @@ package backend.academy.transformation.linear;
 
 import backend.academy.image.Point;
 import backend.academy.transformation.Transformation;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.awt.Color;
 import java.util.List;
 import java.util.Random;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Класс, представляет линейную аффинную трансформацию.
@@ -34,7 +33,10 @@ public class AffineTransformation implements Transformation {
 
     public static AffineTransformation createRandomTransformation(List<Color> colors) {
         Random random = new Random();
-        double a, b, d, e;
+        double a;
+        double b;
+        double d;
+        double e;
 
         while (true) {
             a = random.nextDouble(LIN_MIN, LIN_MAX);
@@ -52,7 +54,8 @@ public class AffineTransformation implements Transformation {
 
         Color randomColor = colors.get(random.nextInt(colors.size()));
 
-        return new AffineTransformation(a, b, c, d, e, f, randomColor.getRed(), randomColor.getGreen(), randomColor.getBlue());
+        return new AffineTransformation(a, b, c, d, e, f,
+            randomColor.getRed(), randomColor.getGreen(), randomColor.getBlue());
     }
 
     @Override

@@ -1,16 +1,15 @@
 package backend.academy.render;
 
-import backend.academy.Config;
+import backend.academy.config.Config;
 import backend.academy.image.FractalImage;
 import backend.academy.transformation.linear.AffineTransformation;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import static org.openjdk.jmh.runner.Defaults.TIMEOUT;
 
 public class MultiThread implements FlameRenderer {
-    private static final int TIMEOUT = 5;
+    private static final int TIMEOUT = 5; // ожидание потока
 
     private final ExecutorService executorService;
 
@@ -41,9 +40,9 @@ public class MultiThread implements FlameRenderer {
         try {
             executorService.awaitTermination(TIMEOUT, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Восстанавливаем статус прерывания
+            Thread.currentThread().interrupt();
         }
 
-        return canvas; // Возвращаем результат
+        return canvas;
     }
 }

@@ -9,7 +9,7 @@ public class HyperbolicTransformation implements Transformation {
         double arctg = Math.atan2(point.y(), point.x());
 
         double newX = Math.sin(arctg) / radius;
-        double newY = radius * Math.cos (arctg);
+        double newY = radius * Math.cos(arctg);
 
         return new Point(newX, newY);
     }

@@ -4,20 +4,22 @@ import backend.academy.config.Config;
 import backend.academy.image.FractalImage;
 import backend.academy.image.ImageFormat;
 import backend.academy.imageprocessing.GammaCorrection;
-import backend.academy.render.MultiThread;
-import backend.academy.transformation.linear.AffineTransformation;
 import backend.academy.render.FlameRenderer;
+import backend.academy.render.MultiThread;
 import backend.academy.render.SingleThread;
+import backend.academy.transformation.linear.AffineTransformation;
 import backend.academy.utils.ImageUtils;
-import lombok.extern.log4j.Log4j2;
 import java.awt.Color;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
+
 
 @Log4j2
 public final class FractalFlameGenerator {
+    private static final double GAMMA_KOEF = 2.2;
 
     /**
      * Генерирует фрактальное пламя с переданными параметрами генерирует линейные трансформации
@@ -46,7 +48,7 @@ public final class FractalFlameGenerator {
             affineTransformations
         );
 
-        applyGammaCorrection(resultImage, 2.2);
+        applyGammaCorrection(resultImage, GAMMA_KOEF);
 
         saveImage(resultImage, filename, config.imageFormat());
 

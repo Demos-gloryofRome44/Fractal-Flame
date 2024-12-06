@@ -1,7 +1,7 @@
 package backend.academy.input.color;
 
-import lombok.ToString;
 import java.awt.Color;
+import lombok.ToString;
 
 @ToString
 public enum ColorName {

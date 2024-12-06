@@ -1,13 +1,11 @@
 package backend.academy.image;
 
-import lombok.Getter;
-
 public record FractalImage(Pixel[] data, int width, int height) {
     public static FractalImage create(int width, int height) {
         Pixel[] tempData = new Pixel[width * height];
 
         for (int i = 0; i < width * height; ++i) {
-            tempData[i] = new Pixel(0,0,0,0);
+            tempData[i] = new Pixel(0, 0, 0, 0);
         }
         return new FractalImage(tempData, width, height);
     }

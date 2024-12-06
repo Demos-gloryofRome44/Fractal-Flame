@@ -5,7 +5,7 @@ import backend.academy.image.Pixel;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class GammaCorrection implements ImageProcessor{
+public class GammaCorrection implements ImageProcessor {
     private final double gamma;
     private static final int MAX_RGB = 255;
 

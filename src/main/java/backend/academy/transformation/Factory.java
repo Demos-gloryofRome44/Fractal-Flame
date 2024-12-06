@@ -4,8 +4,8 @@ import backend.academy.image.Point;
 import backend.academy.transformation.nonlinear.DiamondTransformation;
 import backend.academy.transformation.nonlinear.DiskTransformation;
 import backend.academy.transformation.nonlinear.HeartTransformation;
-import backend.academy.transformation.nonlinear.PolarTransformation;
 import backend.academy.transformation.nonlinear.HyperbolicTransformation;
+import backend.academy.transformation.nonlinear.PolarTransformation;
 import backend.academy.transformation.nonlinear.SinusoidalTransformation;
 import backend.academy.transformation.nonlinear.SphericalTransformation;
 import backend.academy.transformation.nonlinear.SpiralTransformation;
@@ -14,9 +14,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@SuppressWarnings("ReturnCount")
+@UtilityClass
 public class Factory {
     public static Transformation createTransformation(TransformationType type) {
         switch (type) {
@@ -47,12 +51,13 @@ public class Factory {
     private static List<Point> loadPointsFromFile(String filePath) {
         List<Point> points = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(filePath)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(filePath),
+            StandardCharsets.UTF_8))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] coords = line.trim().split("\\s+");
                 if (coords.length < 2) {
-                    System.out.println("Неверный формат строки: " + line);
+                    System.err.println("Неверный формат строки: " + line);
                     continue;
                 }
                 try {

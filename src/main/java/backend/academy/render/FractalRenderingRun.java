@@ -4,13 +4,13 @@ import backend.academy.image.FractalImage;
 import backend.academy.image.Pixel;
 import backend.academy.image.Point;
 import backend.academy.image.Rect;
-import backend.academy.transformation.linear.AffineTransformation;
 import backend.academy.transformation.Transformation;
+import backend.academy.transformation.linear.AffineTransformation;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Этот класс реализует интерфейс Runnable и выполняет генерацию изображения фрактального пламени
@@ -68,8 +68,10 @@ public class FractalRenderingRun implements Runnable {
 
                 for (int s = 0; s < symmetry; s++, angle += Math.PI * 2 / symmetry) {
                     rotatedPoint = Point.rotate(point, angle);
-                    int x1 = (int) world.width() - (int) (world.width() * ((X_MAX - rotatedPoint.x()) / (X_MAX - X_MIN)));
-                    int y1 = (int) world.height() - (int) (world.height() * ((Y_MAX - rotatedPoint.y()) / (Y_MAX - Y_MIN)));
+                    int x1 = (int) world.width()
+                        - (int) (world.width() * ((X_MAX - rotatedPoint.x()) / (X_MAX - X_MIN)));
+                    int y1 = (int) world.height()
+                        - (int) (world.height() * ((Y_MAX - rotatedPoint.y()) / (Y_MAX - Y_MIN)));
 
                     if (!resultImage.contains(x1, y1)) {
                         continue;

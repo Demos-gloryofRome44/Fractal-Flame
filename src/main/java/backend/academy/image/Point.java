@@ -2,13 +2,12 @@ package backend.academy.image;
 
 public record Point(double x, double y) {
     public static Point rotate(Point point, double angle) {
-        double radians = Math.toRadians(angle);
-        double cos = Math.cos(radians);
-        double sin = Math.sin(radians);
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
 
-        double newX = point.x() * cos - point.y() * sin;
-        double newY = point.x() * sin + point.y() * cos;
-
-        return new Point(newX, newY);
+        return new Point(
+            cos * point.x() - sin * point.y(),
+            sin * point.x() + cos * point.y()
+        );
     }
 }
