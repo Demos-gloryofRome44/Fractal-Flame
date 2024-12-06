@@ -73,7 +73,7 @@ public class Main {
         try {
             FractalImage fractalImage = generator.generateFractalFlame(config, outputPath, correctionType);
             long endTime = System.currentTimeMillis();
-            String mode = config.threadsNumber() > 1 ? "многопоточный" : "однопоточный";
+            String mode = config.threadsNumber() > 1 ? "Многопоточный" : "Однопоточный";
             log.info("{} фрактал сгенерирован за {} мс.", mode, (endTime - startTime));
         } catch (IOException | InterruptedException e) {
             log.error("Ошибка во время генерации фрактала", e);

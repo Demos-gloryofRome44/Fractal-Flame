@@ -41,7 +41,7 @@ public class Factory {
             case HYPERBOLIC:
                 return new HyperbolicTransformation();
             case T:
-                return new TTransformation(loadPointsFromFile("/Users/Egor/Desktop/points.txt"));
+                return new TTransformation(loadPointsFromFile("src/main/resources/pointImage/points.txt"));
             default:
                 System.err.println("Неверный тип трансформации: " + type);
                 return null;
