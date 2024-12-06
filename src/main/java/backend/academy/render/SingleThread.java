@@ -22,7 +22,6 @@ public class SingleThread implements FlameRenderer {
             false
         );
 
-        // Запуск рендеринга
         task.run();
 
         return canvas;

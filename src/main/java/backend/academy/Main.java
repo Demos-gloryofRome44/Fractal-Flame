@@ -35,6 +35,9 @@ public class Main {
         List<Transformation> transformations = input.readTransformations(System.out);
         List<Color> colors = input.readColors(System.out);
 
+        String correctionType = input.readString("Напишите \"log\", для устанвки " +
+            "логорифмической коррекции, или пропустите: ", System.out);
+
         ImageFormat imageFormat = input.readImageFormat("Доступные форматы изображения:", System.out);
 
         Rect imageRect = new Rect(-width / 2.0, -height / 2.0, width, height);
@@ -51,7 +54,7 @@ public class Main {
         // однопоточная версия
         Path outputPath = getFilePath("output_single", imageFormat.name().toLowerCase());
         long startTimeSingle = System.currentTimeMillis();
-        generatorService(generator, config, outputPath, startTimeSingle);
+        generatorService(generator, config, outputPath, correctionType, startTimeSingle);
 
         config.threadsNumber(threadsNumber); // Ставим заданное кол-во потоков
         log.info("Количество потоков установлено на: {}", threadsNumber);
@@ -59,7 +62,7 @@ public class Main {
         // Рендеринг многопоточной версии
         outputPath = getFilePath("output_multi", imageFormat.name().toLowerCase());
         long startTimeMulti = System.currentTimeMillis();
-        generatorService(generator, config, outputPath, startTimeMulti);
+        generatorService(generator, config, outputPath, correctionType, startTimeMulti);
         log.info("Program completed.");
 
     }
@@ -67,9 +70,10 @@ public class Main {
     private static void generatorService(FractalFlameGenerator generator,
         Config config,
         Path outputPath,
+        String correctionType,
         long startTime) {
         try {
-            FractalImage fractalImage = generator.generateFractalFlame(config, outputPath);
+            FractalImage fractalImage = generator.generateFractalFlame(config, outputPath, correctionType);
             long endTime = System.currentTimeMillis();
             String mode = config.threadsNumber() > 1 ? "многопоточный" : "однопоточный";
             log.info("{} фрактал сгенерирован за {} мс.", mode, (endTime - startTime));

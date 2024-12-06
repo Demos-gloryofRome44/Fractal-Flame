@@ -4,6 +4,8 @@ import backend.academy.config.Config;
 import backend.academy.image.FractalImage;
 import backend.academy.image.ImageFormat;
 import backend.academy.imageprocessing.GammaCorrection;
+import backend.academy.imageprocessing.ImageProcessor;
+import backend.academy.imageprocessing.LogGammaCorrection;
 import backend.academy.render.FlameRenderer;
 import backend.academy.render.MultiThread;
 import backend.academy.render.SingleThread;
@@ -34,7 +36,8 @@ public final class FractalFlameGenerator {
      */
     public FractalImage generateFractalFlame(
         Config config,
-        Path filename) throws IOException, InterruptedException {
+        Path filename,
+        String correctionType) throws IOException, InterruptedException {
 
         FlameRenderer renderer = createRenderer(config.threadsNumber());
 
@@ -48,7 +51,7 @@ public final class FractalFlameGenerator {
             affineTransformations
         );
 
-        applyGammaCorrection(resultImage, GAMMA_KOEF);
+        applyGammaCorrection(resultImage, GAMMA_KOEF, correctionType);
 
         saveImage(resultImage, filename, config.imageFormat());
 
@@ -59,10 +62,17 @@ public final class FractalFlameGenerator {
         return threadsNumber == 1 ? new SingleThread() : new MultiThread(threadsNumber);
     }
 
-    private static void applyGammaCorrection(FractalImage image, double gamma) {
-        GammaCorrection correction = new GammaCorrection(gamma);
-        correction.process(image);
-        log.info("Applied gamma correction with value: {}", gamma);
+    private static void applyGammaCorrection(FractalImage image, double gamma, String correctionType) {
+        ImageProcessor correction;
+
+        // Устанавливаем гамма-коррекцию по умолчанию
+        if ("log".equalsIgnoreCase(correctionType)) {
+            correction = new LogGammaCorrection(gamma);
+            log.info("Applied logarithmic correction with value: {}", gamma);
+        } else {
+            correction = new GammaCorrection(gamma);
+            log.info("Applied gamma correction with value: {}", gamma);
+        }
     }
 
     private static void saveImage(FractalImage image, Path filename, ImageFormat format) throws IOException {
