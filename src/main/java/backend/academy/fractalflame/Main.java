@@ -45,9 +45,7 @@ public class Main {
         Config config = new Config(1, pointNumber, iterations, symmetry, affinesNumber,
             imageRect, colors, transformations, imageFormat);
 
-
         log.info("Параметры заданны: {}", config);
-
 
         FractalFlameGenerator generator = new FractalFlameGenerator();
 
