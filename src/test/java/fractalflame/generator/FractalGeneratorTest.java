@@ -27,7 +27,17 @@ public class FractalGeneratorTest {
 
     private Config createConfig(int pointNumber, int iterations, List<Transformation> transformations, List<Color> colors) {
         Rect imageRect = new Rect(-960.0, -540.0, 1920.0, 1080.0);
-        return new Config(1, pointNumber, iterations, 1, 10, imageRect, colors, transformations, ImageFormat.PNG);
+        return Config.builder()
+            .threadsNumber(1)
+            .points(pointNumber)
+            .iterations(iterations)
+            .symmetry(1)
+            .affineCount(10)
+            .imageRect(imageRect)
+            .colors(colors)
+            .nonLinearTransformation(transformations)
+            .imageFormat(ImageFormat.PNG)
+            .build();
     }
 
     // Тест на создание изображния фрактального пламени

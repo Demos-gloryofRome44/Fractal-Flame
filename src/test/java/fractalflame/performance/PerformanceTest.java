@@ -61,11 +61,30 @@ public class PerformanceTest {
         ExecutorService executor = Executors.newFixedThreadPool(2); // Создаем пул потоков
 
         // однопоточка
-        Config configSingle = new Config(1, 1000, 1000, 1,
-            10, imageRect, colors, transformations, ImageFormat.PNG);
+        Config configSingle = Config.builder()
+            .threadsNumber(1)
+            .points(1000)
+            .iterations(1000)
+            .symmetry(1)
+            .affineCount(10)
+            .imageRect(imageRect)
+            .colors(colors)
+            .nonLinearTransformation(transformations)
+            .imageFormat(ImageFormat.PNG)
+            .build();
+
         // многопоточка
-        Config configMulti = new Config(10, 1000, 1000, 1,
-            10, imageRect, colors, transformations, ImageFormat.PNG);
+        Config configMulti = Config.builder()
+            .threadsNumber(10)
+            .points(1000)
+            .iterations(1000)
+            .symmetry(1)
+            .affineCount(10)
+            .imageRect(imageRect)
+            .colors(colors)
+            .nonLinearTransformation(transformations)
+            .imageFormat(ImageFormat.PNG)
+            .build();
 
         // Запускаем задачу для однопоточной версии в пуле потоков
         Future<Long> futureSingle = executor.submit(new Callable<Long>() {
