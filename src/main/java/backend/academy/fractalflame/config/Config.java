@@ -5,15 +5,15 @@ import backend.academy.fractalflame.image.Rect;
 import backend.academy.fractalflame.transformation.Transformation;
 import java.awt.Color;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
+@Builder
 public class Config {
     private int threadsNumber;
     private int points;

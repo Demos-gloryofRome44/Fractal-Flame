@@ -42,8 +42,17 @@ public class Main {
 
         Rect imageRect = new Rect(-width / 2.0, -height / 2.0, width, height);
 
-        Config config = new Config(1, pointNumber, iterations, symmetry, affinesNumber,
-            imageRect, colors, transformations, imageFormat);
+        Config config = Config.builder()
+            .threadsNumber(1)
+            .points(pointNumber)
+            .iterations(iterations)
+            .symmetry(symmetry)
+            .affineCount(affinesNumber)
+            .imageRect(imageRect)
+            .colors(colors)
+            .nonLinearTransformation(transformations)
+            .imageFormat(imageFormat)
+            .build();
 
         log.info("Параметры заданны: {}", config);
 
