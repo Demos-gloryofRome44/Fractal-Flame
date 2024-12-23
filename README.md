@@ -7,12 +7,11 @@
 - Более 8 разнообразных нелинейных трансформаций
 - Нормализация изображения
 
-Отчет о примерной разнице многопточной и однопотчоной версии: 
+Руководство: 
 
+Пользователь вводит параметры конфигурации, под себя можно выбрать одну или несколько нелинейных трансформаций и цвет(а). При желании пользователь может применить логарифмическую коррекцию, и выбрать формат для сохранения изображения (JPEG, BMP или PNG). 
 
 ## Примеры Генерации
-Heart
-![8](https://github.com/user-attachments/assets/19665279-8980-46b3-98bf-96a0f47c401d)
 Hyperbolic
 ![15](https://github.com/user-attachments/assets/23c7d581-4e50-40a5-863c-534a358a0276)
 Sinusoidal
@@ -21,6 +20,8 @@ Spiral
 ![17](https://github.com/user-attachments/assets/33bee9b2-1eb5-48b7-a6a6-9cbcf303fbbb)
 Spherical
 ![13](https://github.com/user-attachments/assets/effeb8dc-fb61-42d2-a91a-caf2ee989465)
+Heart and Spherical
+![8](https://github.com/user-attachments/assets/19665279-8980-46b3-98bf-96a0f47c401d)
 Diamond and Disk
 ![1](https://github.com/user-attachments/assets/fd7846a7-dabb-49f3-93f3-24589b373e4b)
 Heart and Disk
