@@ -1,137 +1,28 @@
-# Шаблон Java-проекта для домашних заданий
+## Fractal Flame Generator 
+Фрактальное пламя, также известное как фрактальные искры (англ. fractal flame), представляет собой алгоритм, разработанный Скоттом Дрейвсом (Scott Draves) в 1992 году. Этот алгоритм использует систему итерируемых функций (СИФ) для генерации уникальных и визуально привлекательных изображений.
 
-Шаблон для домашних заданий [Академии Бэкенда 2024][course-url].
+Основные характеристики:
+- Однопоточный и многопоточный рендеринг изображений.
+- Симметричный рендеринг
+- Более 8 разнообразных нелинейных трансформаций
+- Нормализация изображения
 
-Цель данного репозитория – познакомить вас с процессом разработки приложений на
-Java с использованием наиболее распространенных практик, инструментов и
-библиотек.
+Отчет о примерной разнице многопточной и однопотчоной версии: 
 
-## Структура проекта
 
-Это типовой Java-проект, который собирается с помощью инструмента автоматической
-сборки проектов [Apache Maven](https://maven.apache.org/).
+## Примеры Генерации
+Heart
+![8](https://github.com/user-attachments/assets/19665279-8980-46b3-98bf-96a0f47c401d)
+Hyperbolic
+![15](https://github.com/user-attachments/assets/23c7d581-4e50-40a5-863c-534a358a0276)
+Sinusoidal
+![9](https://github.com/user-attachments/assets/520f75df-2d4c-4b49-9adf-b041310c6565)
+Spiral
+![17](https://github.com/user-attachments/assets/33bee9b2-1eb5-48b7-a6a6-9cbcf303fbbb)
+Spherical
+![13](https://github.com/user-attachments/assets/effeb8dc-fb61-42d2-a91a-caf2ee989465)
+Diamond and Disk
+![1](https://github.com/user-attachments/assets/fd7846a7-dabb-49f3-93f3-24589b373e4b)
+Heart and Disk
+![10](https://github.com/user-attachments/assets/13a0c072-894e-441f-bdbe-33b6f53024c2)
 
-Проект состоит из следующих директорий и файлов:
-
-- [pom.xml](./pom.xml) – дескриптор сборки, используемый maven, или Project
-  Object Model. В нем описаны зависимости проекта и шаги по его сборке
-- [src/](./src) – директория, которая содержит исходный код приложения и его
-  тесты:
-  - [src/main/](./src/main) – здесь находится код вашего приложения
-  - [src/test/](./src/test) – здесь находятся тесты вашего приложения
-- [mvnw](./mvnw) и [mvnw.cmd](./mvnw.cmd) – скрипты maven wrapper для Unix и
-  Windows, которые позволяют запускать команды maven без локальной установки
-- [checkstyle.xml](checkstyle.xml),
-  [checkstyle-suppression.xml](checkstyle-suppression.xml), [pmd.xml](pmd.xml) и
-  [spotbugs-excludes.xml](spotbugs-excludes.xml) – в проекте используются
-  [линтеры](https://en.wikipedia.org/wiki/Lint_%28software%29) для контроля
-  качества кода. Указанные файлы содержат правила для используемых линтеров
-- [.mvn/](./.mvn) – служебная директория maven, содержащая конфигурационные
-  параметры сборщика
-- [lombok.config](lombok.config) – конфигурационный файл
-  [Lombok](https://projectlombok.org/), библиотеки помогающей избежать рутинного
-  написания шаблонного кода
-- [.editorconfig](.editorconfig) – файл с описанием настроек форматирования кода
-- [.github/workflows/build.yml](.github/workflows/build.yml) – файл с описанием
-  шагов сборки проекта в среде Github
-- [.gitattributes](.gitattributes), [.gitignore](.gitignore) – служебные файлы
-  для git, с описанием того, как обрабатывать различные файлы, и какие из них
-  игнорировать
-
-## Начало работы
-
-Подробнее о том, как приступить к разработке, описано в разделах
-[курса][course-url] `1.8 Настройка IDE`, `1.9 Работа с Git` и
-`1.10 Настройка SSH`.
-
-Для того чтобы собрать проект, и проверить, что все работает корректно, можно
-запустить из модального окна IDEA
-[Run Anything](https://www.jetbrains.com/help/idea/running-anything.html)
-команду:
-
-```shell
-mvn clean verify
-```
-
-Альтернативно можно в терминале из корня проекта выполнить следующие команды.
-
-Для Unix (Linux, macOS, Cygwin, WSL):
-
-```shell
-./mvnw clean verify
-```
-
-Для Windows:
-
-```shell
-mvnw.cmd clean verify
-```
-
-Для окончания сборки потребуется подождать какое-то время, пока maven скачает
-все необходимые зависимости, скомпилирует проект и прогонит базовый набор
-тестов.
-
-Если вы в процессе сборки получили ошибку:
-
-```shell
-Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion failed with message:
-JDK version must be at least 22
-```
-
-Значит, версия вашего JDK ниже 22.
-
-Если же получили ошибку:
-
-```shell
-Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion failed with message:
-Maven version should, at least, be 3.8.8
-```
-
-Значит, у вас используется версия maven ниже 3.8.8. Такого не должно произойти,
-если вы запускаете сборку из IDEA или через `mvnw`-скрипты.
-
-Далее будут перечислены другие полезные команды maven.
-
-Запуск только компиляции основных классов:
-
-```shell
-mvn compile
-```
-
-Запуск тестов:
-
-```shell
-mvn test
-```
-
-Запуск линтеров:
-
-```shell
-mvn checkstyle:check modernizer:modernizer spotbugs:check pmd:check pmd:cpd-check
-```
-
-Вывод дерева зависимостей проекта (полезно при отладке транзитивных
-зависимостей):
-
-```shell
-mvn dependency:tree
-```
-
-Вывод вспомогательной информации о любом плагине (вместо `compiler` можно
-подставить интересующий вас плагин):
-
-```shell
-mvn help:describe -Dplugin=compiler
-```
-
-## Дополнительные материалы
-
-- Документация по maven: https://maven.apache.org/guides/index.html
-- Поиск зависимостей и их версий: https://central.sonatype.com/search
-- Документация по процессу автоматизированной сборки в среде github:
-  https://docs.github.com/en/actions
-- Документация по git: https://git-scm.com/doc
-- Javadoc для Java 22:
-  https://docs.oracle.com/en/java/javase/22/docs/api/index.html
-
-[course-url]: https://edu.tinkoff.ru/all-activities/courses/870efa9d-7067-4713-97ae-7db256b73eab
