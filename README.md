@@ -26,4 +26,5 @@ Diamond and Disk
 ![1](https://github.com/user-attachments/assets/fd7846a7-dabb-49f3-93f3-24589b373e4b)
 Heart and Disk
 ![10](https://github.com/user-attachments/assets/13a0c072-894e-441f-bdbe-33b6f53024c2)
-
+Easter Eggs(T)
+![2024-12-25 22 26 32](https://github.com/user-attachments/assets/ab0beb3d-347b-4acb-8d97-e9ed05c066c2)
